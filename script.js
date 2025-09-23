@@ -216,7 +216,7 @@ updateInventoryUI();
 // 6.09.00
 const player = {
     height: 8,
-    speed: 0.1,
+    speed: 0.17,
     rotationSpeed: 0.002,
     jetpackSpeed: 0.2,
     jetpackAcceleration: 0.005,
@@ -484,3 +484,4 @@ animate();
 // - - - >> 9.09 - ended section 9
 
 // https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
+
