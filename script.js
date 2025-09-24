@@ -1,15 +1,15 @@
 // https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
 
 // Table of Contents:
-// 1.00 - Initialization and Scene Setup
-// 2.00 - Hexagonal Block Geometry
-// 3.00 - World Generation and Chunking
-// 4.00 - Lighting, Materials, and Post-Processing
-// 5.00 - Inventory System UI and Logic
-// 6.00 - Phone Controls and Input
-// 7.00 - Zoom Toggle Logic
-// 8.00 - Jetpack Controls
-// 9.00 - Game Loop and Rendering
+// 1. Initialization and Scene Setup
+// 2. Hexagonal Block Geometry
+// 3. World Generation and Chunking
+// 4. Lighting, Materials, and Post-Processing
+// 5. Inventory System UI and Logic
+// 6. Phone Controls and Input
+// 7. Zoom Toggle Logic
+// 8. Jetpack Controls
+// 9. Game Loop and Rendering
 
 /*
  * Codepen HexagonCraft Game
@@ -21,10 +21,6 @@
 
 // 1.00.00
 const scene = new THREE.Scene();
-const loaderTitle = document.getElementById('loader-title');
-if (loaderTitle) {
-  loaderTitle.textContent = `Loading Planetoid v.12 Alpha...`;
-}
 
 // 1.00.01
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -76,11 +72,11 @@ function createHexagonalBlock(x, y, z, color) {
 }
 // - - - >> 2.02 - ended section 2
 
-// - - - >> 3.03 - World Generation and Chunking
+// - - - >> 3.02 - World Generation and Chunking
 
-// 3.03.00 - Reduced world size for testing
+// 3.02.00
 const worldSizeOptions = [
-  { chunkSize: 2, worldSize: 0 },
+  { chunkSize: 8, worldSize: 2 },
   { chunkSize: 10, worldSize: 3 },
   { chunkSize: 12, worldSize: 4 }
 ];
@@ -88,11 +84,11 @@ const selectedSize = 0;
 const chunkSize = worldSizeOptions[selectedSize].chunkSize;
 const worldSize = worldSizeOptions[selectedSize].worldSize;
 
-// 3.03.01
+// 3.02.01
 const world = new THREE.Group();
 scene.add(world);
 
-// 3.03.02
+// 3.02.02
 function generateChunk(chunkX, chunkZ) {
     const colors = [
         0x8A2BE2, // Blue Violet (Purple)
@@ -110,7 +106,7 @@ function generateChunk(chunkX, chunkZ) {
             const globalZ = chunkZ * chunkSize + j;
             const height = Math.floor(Math.random() * 3);
 
-            // 3.03.03
+            // 3.02.03
             for (let k = 0; k <= height; k++) {
                 let blockColor;
                 if (Math.random() < 0.1) {
@@ -125,13 +121,13 @@ function generateChunk(chunkX, chunkZ) {
     }
 }
 
-// 3.03.04
+// 3.02.04
 for (let cx = -worldSize; cx <= worldSize; cx++) {
     for (let cz = -worldSize; cz <= worldSize; cz++) {
         generateChunk(cx, cz);
     }
 }
-// - - - >> 3.03 - ended section 3
+// - - - >> 3.02 - ended section 3
 
 // - - - >> 4.00 - Lighting, Materials, and Post-Processing
 
@@ -189,12 +185,10 @@ for (let i = 0; i < 12; i++) {
 }
 
 // 5.00.04
-if (inventoryToggleButton) {
-  inventoryToggleButton.addEventListener('click', () => {
-      const isVisible = inventoryUI.style.display === 'grid';
-      inventoryUI.style.display = isVisible ? 'none' : 'grid';
-  });
-}
+inventoryToggleButton.addEventListener('click', () => {
+    const isVisible = inventoryUI.style.display === 'grid';
+    inventoryUI.style.display = isVisible ? 'none' : 'grid';
+});
 
 // 5.00.05
 function updateInventoryUI() {
@@ -217,13 +211,13 @@ function selectSlot(index) {
 updateInventoryUI();
 // - - - >> 5.00 - ended section 5
 
-// - - - >> 6.10 - Phone Controls and Input
+// - - - >> 6.09 - Phone Controls and Input
 
-// 6.10.00
+// 6.09.00
 const player = {
     height: 8,
     speed: 0.17,
-    rotationSpeed: 0.001, // 6.10.01 - Reduced sensitivity for right joystick
+    rotationSpeed: 0.002,
     jetpackSpeed: 0.2,
     jetpackAcceleration: 0.005,
     position: new THREE.Vector3(0, 10, 0),
@@ -231,26 +225,26 @@ const player = {
     isGrounded: false
 };
 
-// 6.10.01
+// 6.09.01
 camera.position.copy(player.position).add(new THREE.Vector3(0, player.height, 0));
 const moveJoystick = document.getElementById('move-joystick');
 const lookJoystick = document.getElementById('look-joystick');
 
-// 6.10.02
+// 6.09.02
 let moveJoystickActive = false;
 let lookJoystickActive = false;
 let moveTouch = new THREE.Vector2(0, 0);
 let lookTouch = new THREE.Vector2(0, 0);
 let threeFingerSwipeStart = null;
 
-// 6.10.03
+// 6.09.03
 const moveJoystickCenter = new THREE.Vector2(0, 0);
 const lookJoystickCenter = new THREE.Vector2(0, 0);
 
-// 6.10.04
+// 6.09.04
 let zoomEnabled = true;
 
-// 6.10.05
+// 6.09.05
 window.addEventListener('touchstart', (event) => {
     if (event.touches.length === 3) {
         threeFingerSwipeStart = {
@@ -266,7 +260,7 @@ window.addEventListener('touchstart', (event) => {
         const target = touch.target;
         const rect = target.getBoundingClientRect();
 
-        // 6.10.06
+        // 6.09.06
         if (target === moveJoystick) {
             moveJoystickActive = true;
             moveJoystickCenter.set(rect.left + rect.width / 2, rect.top + rect.height / 2);
@@ -279,7 +273,7 @@ window.addEventListener('touchstart', (event) => {
     }
 }, { passive: false });
 
-// 6.10.07
+// 6.09.07
 window.addEventListener('touchend', (event) => {
     moveJoystickActive = false;
     lookJoystickActive = false;
@@ -299,7 +293,7 @@ window.addEventListener('touchend', (event) => {
     }
 });
 
-// 6.10.08
+// 6.09.08
 window.addEventListener('touchmove', (event) => {
     if (threeFingerSwipeStart) {
         // Prevent default zoom behavior during swipe
@@ -316,7 +310,7 @@ window.addEventListener('touchmove', (event) => {
         lookTouch.set(touch.clientX, touch.clientY);
     }
 }, { passive: false });
-// - - - >> 6.10 - ended section 6
+// - - - >> 6.09 - ended section 6
 
 // - - - >> 7.08 - Zoom Toggle Logic
 
@@ -335,11 +329,9 @@ function toggleZoom() {
 }
 
 // 7.08.02
-if (zoomToggleButton) {
-  zoomToggleButton.addEventListener('click', () => {
-      toggleZoom();
-  });
-}
+zoomToggleButton.addEventListener('click', () => {
+    toggleZoom();
+});
 // - - - >> 7.08 - ended section 7
 
 // - - - >> 8.07 - Jetpack Controls
@@ -349,19 +341,15 @@ const jetpackButton = document.getElementById('jetpack-button');
 let jetpackActive = false;
 
 // 8.07.01
-if (jetpackButton) {
-  jetpackButton.addEventListener('touchstart', (event) => {
-      event.preventDefault();
-      jetpackActive = true;
-  });
-}
+jetpackButton.addEventListener('touchstart', (event) => {
+    event.preventDefault();
+    jetpackActive = true;
+});
 
 // 8.07.02
-if (jetpackButton) {
-  jetpackButton.addEventListener('touchend', () => {
-      jetpackActive = false;
-  });
-}
+jetpackButton.addEventListener('touchend', () => {
+    jetpackActive = false;
+});
 // - - - >> 8.07 - ended section 8
 
 // - - - >> 9.09 - Game Loop and Rendering
@@ -496,4 +484,3 @@ animate();
 // - - - >> 9.09 - ended section 9
 
 // https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
-// Planetoid v.12 Alpha
