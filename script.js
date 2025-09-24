@@ -1,26 +1,26 @@
-// https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
-
-// Table of Contents:
-// 1. Initialization and Scene Setup
-// 2. Hexagonal Block Geometry
-// 3. World Generation and Chunking
-// 4. Lighting, Materials, and Post-Processing
-// 5. Inventory System UI and Logic
-// 6. Phone Controls and Input
-// 7. Zoom Toggle Logic
-// 8. Jetpack Controls
-// 9. Game Loop and Rendering
-
+// Planetoid v.10 Alpha
 /*
- * Codepen HexagonCraft Game
- * A Minecraft-like game with hexagonal blocks, first-person view,
- * phone controls, and a neon-infused night aesthetic.
- */
+    Table of Contents:
+    1.00 - Initialization and Scene Setup
+    2.00 - Hexagonal Block Geometry
+    3.00 - World Generation and Chunking
+    4.00 - Lighting, Materials, and Post-Processing
+    5.00 - Inventory System UI and Logic
+    6.00 - Phone Controls and Input
+    7.00 - Zoom Toggle Logic
+    8.00 - Jetpack Controls
+    9.00 - Game Loop and Rendering
+*/
 
 // - - - >> 1.00 - Initialization and Scene Setup
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
 
 // 1.00.00
 const scene = new THREE.Scene();
+const loaderTitle = document.getElementById('loader-title');
+if (loaderTitle) {
+  loaderTitle.textContent = `Loading Planetoid v.10 Alpha...`;
+}
 
 // 1.00.01
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -72,11 +72,11 @@ function createHexagonalBlock(x, y, z, color) {
 }
 // - - - >> 2.02 - ended section 2
 
-// - - - >> 3.02 - World Generation and Chunking
+// - - - >> 3.03 - World Generation and Chunking
 
-// 3.02.00
+// 3.03.00 - Reduced world size for testing
 const worldSizeOptions = [
-  { chunkSize: 8, worldSize: 2 },
+  { chunkSize: 2, worldSize: 0 },
   { chunkSize: 10, worldSize: 3 },
   { chunkSize: 12, worldSize: 4 }
 ];
@@ -84,11 +84,11 @@ const selectedSize = 0;
 const chunkSize = worldSizeOptions[selectedSize].chunkSize;
 const worldSize = worldSizeOptions[selectedSize].worldSize;
 
-// 3.02.01
+// 3.03.01
 const world = new THREE.Group();
 scene.add(world);
 
-// 3.02.02
+// 3.03.02
 function generateChunk(chunkX, chunkZ) {
     const colors = [
         0x8A2BE2, // Blue Violet (Purple)
@@ -106,7 +106,7 @@ function generateChunk(chunkX, chunkZ) {
             const globalZ = chunkZ * chunkSize + j;
             const height = Math.floor(Math.random() * 3);
 
-            // 3.02.03
+            // 3.03.03
             for (let k = 0; k <= height; k++) {
                 let blockColor;
                 if (Math.random() < 0.1) {
@@ -121,13 +121,13 @@ function generateChunk(chunkX, chunkZ) {
     }
 }
 
-// 3.02.04
+// 3.03.04
 for (let cx = -worldSize; cx <= worldSize; cx++) {
     for (let cz = -worldSize; cz <= worldSize; cz++) {
         generateChunk(cx, cz);
     }
 }
-// - - - >> 3.02 - ended section 3
+// - - - >> 3.03 - ended section 3
 
 // - - - >> 4.00 - Lighting, Materials, and Post-Processing
 
@@ -329,9 +329,11 @@ function toggleZoom() {
 }
 
 // 7.08.02
-zoomToggleButton.addEventListener('click', () => {
-    toggleZoom();
-});
+if (zoomToggleButton) {
+  zoomToggleButton.addEventListener('click', () => {
+      toggleZoom();
+  });
+}
 // - - - >> 7.08 - ended section 7
 
 // - - - >> 8.07 - Jetpack Controls
@@ -341,15 +343,19 @@ const jetpackButton = document.getElementById('jetpack-button');
 let jetpackActive = false;
 
 // 8.07.01
-jetpackButton.addEventListener('touchstart', (event) => {
-    event.preventDefault();
-    jetpackActive = true;
-});
+if (jetpackButton) {
+  jetpackButton.addEventListener('touchstart', (event) => {
+      event.preventDefault();
+      jetpackActive = true;
+  });
+}
 
 // 8.07.02
-jetpackButton.addEventListener('touchend', () => {
-    jetpackActive = false;
-});
+if (jetpackButton) {
+  jetpackButton.addEventListener('touchend', () => {
+      jetpackActive = false;
+  });
+}
 // - - - >> 8.07 - ended section 8
 
 // - - - >> 9.09 - Game Loop and Rendering
@@ -484,4 +490,4 @@ animate();
 // - - - >> 9.09 - ended section 9
 
 // https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
-
+// Planetoid v.10 Alpha
