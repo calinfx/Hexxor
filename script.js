@@ -1,4 +1,4 @@
-// Planetoid v.10 Alpha
+// Planetoid v.11 Alpha
 /*
     Table of Contents:
     1.00 - Initialization and Scene Setup
@@ -19,7 +19,7 @@ import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/thr
 const scene = new THREE.Scene();
 const loaderTitle = document.getElementById('loader-title');
 if (loaderTitle) {
-  loaderTitle.textContent = `Loading Planetoid v.10 Alpha...`;
+  loaderTitle.textContent = `Loading Planetoid v.11 Alpha...`;
 }
 
 // 1.00.01
@@ -185,10 +185,12 @@ for (let i = 0; i < 12; i++) {
 }
 
 // 5.00.04
-inventoryToggleButton.addEventListener('click', () => {
-    const isVisible = inventoryUI.style.display === 'grid';
-    inventoryUI.style.display = isVisible ? 'none' : 'grid';
-});
+if (inventoryToggleButton) {
+  inventoryToggleButton.addEventListener('click', () => {
+      const isVisible = inventoryUI.style.display === 'grid';
+      inventoryUI.style.display = isVisible ? 'none' : 'grid';
+  });
+}
 
 // 5.00.05
 function updateInventoryUI() {
@@ -211,40 +213,40 @@ function selectSlot(index) {
 updateInventoryUI();
 // - - - >> 5.00 - ended section 5
 
-// - - - >> 6.09 - Phone Controls and Input
+// - - - >> 6.10 - Phone Controls and Input
 
-// 6.09.00
+// 6.10.00
 const player = {
     height: 8,
     speed: 0.17,
-    rotationSpeed: 0.002,
+    rotationSpeed: 0.001, // 6.10.01 - Reduced sensitivity for right joystick
     jetpackSpeed: 0.2,
     jetpackAcceleration: 0.005,
     position: new THREE.Vector3(0, 10, 0),
     velocity: new THREE.Vector3(),
     isGrounded: false
 };
+// 6.10.01
 
-// 6.09.01
 camera.position.copy(player.position).add(new THREE.Vector3(0, player.height, 0));
 const moveJoystick = document.getElementById('move-joystick');
 const lookJoystick = document.getElementById('look-joystick');
 
-// 6.09.02
+// 6.10.02
 let moveJoystickActive = false;
 let lookJoystickActive = false;
 let moveTouch = new THREE.Vector2(0, 0);
 let lookTouch = new THREE.Vector2(0, 0);
 let threeFingerSwipeStart = null;
 
-// 6.09.03
+// 6.10.03
 const moveJoystickCenter = new THREE.Vector2(0, 0);
 const lookJoystickCenter = new THREE.Vector2(0, 0);
 
-// 6.09.04
+// 6.10.04
 let zoomEnabled = true;
 
-// 6.09.05
+// 6.10.05
 window.addEventListener('touchstart', (event) => {
     if (event.touches.length === 3) {
         threeFingerSwipeStart = {
@@ -260,7 +262,7 @@ window.addEventListener('touchstart', (event) => {
         const target = touch.target;
         const rect = target.getBoundingClientRect();
 
-        // 6.09.06
+        // 6.10.06
         if (target === moveJoystick) {
             moveJoystickActive = true;
             moveJoystickCenter.set(rect.left + rect.width / 2, rect.top + rect.height / 2);
@@ -273,7 +275,7 @@ window.addEventListener('touchstart', (event) => {
     }
 }, { passive: false });
 
-// 6.09.07
+// 6.10.07
 window.addEventListener('touchend', (event) => {
     moveJoystickActive = false;
     lookJoystickActive = false;
@@ -293,7 +295,7 @@ window.addEventListener('touchend', (event) => {
     }
 });
 
-// 6.09.08
+// 6.10.08
 window.addEventListener('touchmove', (event) => {
     if (threeFingerSwipeStart) {
         // Prevent default zoom behavior during swipe
@@ -310,7 +312,7 @@ window.addEventListener('touchmove', (event) => {
         lookTouch.set(touch.clientX, touch.clientY);
     }
 }, { passive: false });
-// - - - >> 6.09 - ended section 6
+// - - - >> 6.10 - ended section 6
 
 // - - - >> 7.08 - Zoom Toggle Logic
 
@@ -490,4 +492,4 @@ animate();
 // - - - >> 9.09 - ended section 9
 
 // https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
-// Planetoid v.10 Alpha
+// Planetoid v.11 Alpha
