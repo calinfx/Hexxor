@@ -1,25 +1,29 @@
-// Planetoid v.11 Alpha
+// https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
+
+// Table of Contents:
+// 1.00 - Initialization and Scene Setup
+// 2.00 - Hexagonal Block Geometry
+// 3.00 - World Generation and Chunking
+// 4.00 - Lighting, Materials, and Post-Processing
+// 5.00 - Inventory System UI and Logic
+// 6.00 - Phone Controls and Input
+// 7.00 - Zoom Toggle Logic
+// 8.00 - Jetpack Controls
+// 9.00 - Game Loop and Rendering
+
 /*
-    Table of Contents:
-    1.00 - Initialization and Scene Setup
-    2.00 - Hexagonal Block Geometry
-    3.00 - World Generation and Chunking
-    4.00 - Lighting, Materials, and Post-Processing
-    5.00 - Inventory System UI and Logic
-    6.00 - Phone Controls and Input
-    7.00 - Zoom Toggle Logic
-    8.00 - Jetpack Controls
-    9.00 - Game Loop and Rendering
-*/
+ * Codepen HexagonCraft Game
+ * A Minecraft-like game with hexagonal blocks, first-person view,
+ * phone controls, and a neon-infused night aesthetic.
+ */
 
 // - - - >> 1.00 - Initialization and Scene Setup
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
 
 // 1.00.00
 const scene = new THREE.Scene();
 const loaderTitle = document.getElementById('loader-title');
 if (loaderTitle) {
-  loaderTitle.textContent = `Loading Planetoid v.11 Alpha...`;
+  loaderTitle.textContent = `Loading Planetoid v.12 Alpha...`;
 }
 
 // 1.00.01
@@ -226,8 +230,8 @@ const player = {
     velocity: new THREE.Vector3(),
     isGrounded: false
 };
-// 6.10.01
 
+// 6.10.01
 camera.position.copy(player.position).add(new THREE.Vector3(0, player.height, 0));
 const moveJoystick = document.getElementById('move-joystick');
 const lookJoystick = document.getElementById('look-joystick');
@@ -492,4 +496,4 @@ animate();
 // - - - >> 9.09 - ended section 9
 
 // https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
-// Planetoid v.11 Alpha
+// Planetoid v.12 Alpha
